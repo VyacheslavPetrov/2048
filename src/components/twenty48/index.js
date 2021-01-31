@@ -7,14 +7,22 @@ import {
   gameArraySelector,
   maxScoreSelector,
   currentScoreSelector,
+  isWinSelector,
   getRight,
   getLeft,
   getUp,
-  getDown
+  getDown,
+  winGame
 } from "../../models/2048";
 
 
-function Twenty48({gameArray, maxScore, currentScore, startGame, setNewNumber, getRight, getLeft, getUp, getDown}) {
+function Twenty48({gameArray, maxScore, currentScore, startGame, setNewNumber, getRight, getLeft, getUp, getDown, winGame, isWin}) {
+  useEffect(()=>{
+    if(currentScore > 2047 && !isWin){
+      winGame()
+      alert("YOU WON!")
+    }
+  }, [currentScore])
   useEffect(()=>{
     if(!window.localStorage.getItem("gameArray")){
       startGame()
@@ -65,6 +73,7 @@ export default connect(state => ({
   gameArray: gameArraySelector(state),
   maxScore: maxScoreSelector(state),
   currentScore: currentScoreSelector(state),
+  isWin: isWinSelector(state)
 }), {
-  startGame, setNewNumber, getRight, getLeft, getUp, getDown
+  startGame, setNewNumber, getRight, getLeft, getUp, getDown, winGame
 })(memo(Twenty48, areEqual))

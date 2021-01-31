@@ -26,8 +26,8 @@ export const SET_NEW_MAX_SCORE = `${prefix}/SET_NEW_MAX_SCORE`
 export const ReducerRecord = {
   gameArray: JSON.parse(window.localStorage.getItem("gameArray")) || [[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]],
   maxScore: window.localStorage.getItem("maxScore"),
-  prevGameArray: [[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]]
-
+  prevGameArray: [[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]],
+  isWin: false
 }
 
 export default function reducer(state = ReducerRecord, action) {
@@ -37,19 +37,23 @@ export default function reducer(state = ReducerRecord, action) {
     case INIT_NEW_GAME:
       return Object.assign({}, state, {
         gameArray: [[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]],
-        prevGameArray: [[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]]
+        prevGameArray: [[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]],
+        isWin: false
       })
     case SET_NEW_NUMBER:
+      return Object.assign({}, state, {
+        gameArray: payload,
+      })
     case MOVE_RIGHT:
     case MOVE_LEFT:
     case MOVE_UP:
     case MOVE_DOWN:
       return Object.assign({}, state, {
-        gameArray: payload
+        gameArray: payload,
       })
     case WIN_GAME:
       return Object.assign({}, state, {
-        maxScore: payload,
+        isWin: payload,
       })
 
     case UPDATE_OLD_ARRAY:
@@ -73,6 +77,7 @@ export default function reducer(state = ReducerRecord, action) {
 export const stateSelector = state => state[moduleName]
 export const gameArraySelector = createSelector(stateSelector, state => state.gameArray)
 export const maxScoreSelector = createSelector(stateSelector, state => state.maxScore)
+export const isWinSelector = createSelector(stateSelector, state => state.isWin)
 export const currentScoreSelector = createSelector(stateSelector, state => {
   let count = 0
   state.gameArray.map((item)=>{
@@ -100,6 +105,11 @@ export const currentScoreSelector = createSelector(stateSelector, state => {
 export const startGame = () => ({
     type: SET_NEW_NUMBER,
     payload: putRandomNumber([[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]])
+
+})
+export const winGame = () => ({
+  type: WIN_GAME,
+  payload: true
 
 })
 
