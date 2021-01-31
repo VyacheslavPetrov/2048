@@ -1,6 +1,6 @@
 import React, {useEffect, memo} from "react"
 import { connect } from 'react-redux'
-
+import colorMap from '../../ui/cellColor'
 import {
   startGame,
   setNewNumber,
@@ -48,7 +48,7 @@ function Twenty48({gameArray, maxScore, currentScore, startGame, setNewNumber, g
           <div className="row" key={rowKey}>
             {row.map((cell, cellKey)=>{
               return(
-                <div className="cell" key={cellKey}>{cell}</div>
+                <div className="cell" key={cellKey} style={{backgroundColor: colorMap[cell]}}>{cell}</div>
               )
             })}
           </div>
