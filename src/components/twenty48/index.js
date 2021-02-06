@@ -1,6 +1,8 @@
 import React, {useEffect, memo} from "react"
+import {TransitionGroup, CSSTransition} from 'react-transition-group'
 import { connect } from 'react-redux'
 import colorMap from '../../ui/cellColor'
+import { v4 as uuidv4 } from 'uuid';
 import {
   startGame,
   setNewNumber,
@@ -15,6 +17,9 @@ import {
   winGame
 } from "../../models/2048";
 
+function Cell({cell}) {
+  return <div className="cell" style={{backgroundColor: colorMap[cell]}}>{cell}</div>
+}
 
 function Twenty48({gameArray, maxScore, currentScore, startGame, setNewNumber, getRight, getLeft, getUp, getDown, winGame, isWin}) {
   useEffect(()=>{
@@ -27,8 +32,8 @@ function Twenty48({gameArray, maxScore, currentScore, startGame, setNewNumber, g
     if(!window.localStorage.getItem("gameArray")){
       startGame()
     }
-
   },[setNewNumber, startGame])
+
   return(
     <div id="2048">
       <p>*2048*</p>
@@ -43,17 +48,19 @@ function Twenty48({gameArray, maxScore, currentScore, startGame, setNewNumber, g
         <button onClick={()=>getLeft()}>LEFT</button>
         <button onClick={()=>getRight()}>RIGHT</button>
       </div>
-      {gameArray.map((row, rowKey)=>{
-        return (
-          <div className="row" key={rowKey}>
-            {row.map((cell, cellKey)=>{
-              return(
-                <div className="cell" key={cellKey} style={{backgroundColor: colorMap[cell]}}>{cell}</div>
-              )
-            })}
-          </div>
-        )
-      })}
+        {gameArray.map((row, rowKey)=>{
+          return (
+                 <TransitionGroup className="row game-array" key={rowKey}>
+                  {row.map((cell, key)=>{
+                    return(
+                      <CSSTransition classNames={cell === 0 ? "" : "item"} key={uuidv4()} timeout={100}>
+                        <Cell cell={cell}/>
+                      </CSSTransition>
+                    )
+                  })}
+                 </TransitionGroup>
+          )
+        })}
     </div>
   )
 }
