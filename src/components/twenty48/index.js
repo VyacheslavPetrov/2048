@@ -16,6 +16,7 @@ import {
   getDown,
   winGame
 } from "../../models/2048";
+import Button from "../../ui/Button"
 
 function Cell({cell}) {
   return <div className="cell" style={{backgroundColor: colorMap[cell]}}>{cell}</div>
@@ -43,10 +44,10 @@ function Twenty48({gameArray, maxScore, currentScore, startGame, setNewNumber, g
         <p>Score: {currentScore}</p>
       </div>
       <div>
-        <button onClick={()=>getUp()}>UP</button>
-        <button onClick={()=>getDown()}>DOWN</button>
-        <button onClick={()=>getLeft()}>LEFT</button>
-        <button onClick={()=>getRight()}>RIGHT</button>
+        <Button onClick={()=>getUp()} hotKey='up'>UP</Button>
+        <Button onClick={()=>getDown()} hotKey='down'>DOWN</Button>
+        <Button onClick={()=>getLeft()} hotKey='left'>LEFT</Button>
+        <Button onClick={()=>getRight()} hotKey='right'>RIGHT</Button>
       </div>
         {gameArray.map((row, rowKey)=>{
           return (

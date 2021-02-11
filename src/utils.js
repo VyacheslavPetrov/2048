@@ -34,22 +34,22 @@ export const getArrayCoordinates = (array) => {
   return arrayCoordinates
 }
 */
-function transpose(matrix) {
+export function transpose(matrix) {
   return matrix.reduce((prev, next) => next.map((item, i) =>
     (prev[i] || []).concat(next[i])
   ), []);
 }
 
-const matrixRotateRight = (arr, count) => {
-  if(count > 0){
-    console.log(arr)
-    const array = transpose(arr)
-    console.log(array)
-    return matrixRotateRight(array, --count)
-  } else {
-    return arr
-  }
-}
+// const matrixRotateRight = (arr, count) => {
+//   if(count > 0){
+//     console.log(arr)
+//     const array = transpose(arr)
+//     console.log(array)
+//     return matrixRotateRight(array, --count)
+//   } else {
+//     return arr
+//   }
+// }
 
 export const addStartNumber = () => {
   const possibleNumbers = [2,2,2,4]
@@ -114,9 +114,7 @@ const transformArray = (board) => {
 
 export const moveLeft = (arr) => {
   const board = _.cloneDeep(arr)
-  console.log(arr)
   const array = board.map((item) => item.reverse())
-  console.log(array)
   const nullBoard = moveNulls(array)
 
   const transformBoard = transformArray(nullBoard)
