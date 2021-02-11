@@ -1,26 +1,39 @@
 import React, {useEffect, memo} from "react"
+import {TransitionGroup, CSSTransition} from 'react-transition-group'
 import { connect } from 'react-redux'
-
+import colorMap from '../../ui/cellColor'
+import { v4 as uuidv4 } from 'uuid';
 import {
   startGame,
   setNewNumber,
   gameArraySelector,
   maxScoreSelector,
   currentScoreSelector,
+  isWinSelector,
   getRight,
   getLeft,
   getUp,
-  getDown
+  getDown,
+  winGame
 } from "../../models/2048";
 
+function Cell({cell}) {
+  return <div className="cell" style={{backgroundColor: colorMap[cell]}}>{cell}</div>
+}
 
-function Twenty48({gameArray, maxScore, currentScore, startGame, setNewNumber, getRight, getLeft, getUp, getDown}) {
+function Twenty48({gameArray, maxScore, currentScore, startGame, setNewNumber, getRight, getLeft, getUp, getDown, winGame, isWin}) {
+  useEffect(()=>{
+    if(currentScore > 2047 && !isWin){
+      winGame()
+      alert("YOU WON!")
+    }
+  }, [currentScore])
   useEffect(()=>{
     if(!window.localStorage.getItem("gameArray")){
       startGame()
     }
-
   },[setNewNumber, startGame])
+
   return(
     <div id="2048">
       <p>*2048*</p>
@@ -35,17 +48,19 @@ function Twenty48({gameArray, maxScore, currentScore, startGame, setNewNumber, g
         <button onClick={()=>getLeft()}>LEFT</button>
         <button onClick={()=>getRight()}>RIGHT</button>
       </div>
-      {gameArray.map((row, rowKey)=>{
-        return (
-          <div className="row" key={rowKey}>
-            {row.map((cell, cellKey)=>{
-              return(
-                <div className="cell" key={cellKey}>{cell}</div>
-              )
-            })}
-          </div>
-        )
-      })}
+        {gameArray.map((row, rowKey)=>{
+          return (
+                 <TransitionGroup className="row game-array" key={rowKey}>
+                  {row.map((cell, key)=>{
+                    return(
+                      <CSSTransition classNames={cell === 0 ? "" : "item"} key={uuidv4()} timeout={100}>
+                        <Cell cell={cell}/>
+                      </CSSTransition>
+                    )
+                  })}
+                 </TransitionGroup>
+          )
+        })}
     </div>
   )
 }
@@ -65,6 +80,7 @@ export default connect(state => ({
   gameArray: gameArraySelector(state),
   maxScore: maxScoreSelector(state),
   currentScore: currentScoreSelector(state),
+  isWin: isWinSelector(state)
 }), {
-  startGame, setNewNumber, getRight, getLeft, getUp, getDown
+  startGame, setNewNumber, getRight, getLeft, getUp, getDown, winGame
 })(memo(Twenty48, areEqual))
