@@ -82,7 +82,7 @@ export const putRandomNumber = (array) => {
   return arrayClone
 }
 
-const moveNulls = (array) => {
+export const moveNulls = (array) => {
   let newBoard = []
   for (let a = 0; a < array.length; a++) {
     let row = [];
@@ -95,7 +95,7 @@ const moveNulls = (array) => {
   return newBoard
 }
 
-const transformArray = (board) => {
+export const transformArray = (board) => {
   let newBoard = _.cloneDeep(board)
   for(let i = 0; i < newBoard.length; i++) {
     for (let j = newBoard.length - 1; j >= 0; j--) {
@@ -151,7 +151,7 @@ export const isGameOver = (arr) => {
   const stringArr = JSON.stringify(arr)
   //console.log(stringArr === JSON.stringify(moveLeft(arr)), stringArr === JSON.stringify(moveDown(arr)), stringArr === JSON.stringify(moveNulls(arr)))
   if(stringArr === JSON.stringify(moveLeft(arr)) && stringArr === JSON.stringify(moveDown(arr)) && stringArr === JSON.stringify(moveNulls(arr))){
-    alert("GAME OVER!")
+    //alert("GAME OVER!")
     return true
   } else {
     return false
