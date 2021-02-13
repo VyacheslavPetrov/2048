@@ -12,6 +12,7 @@ const Button = props => {
   }
 
   return <button
+    onClick={onClick}
     ref={inputEl}
     {...rest}
   >

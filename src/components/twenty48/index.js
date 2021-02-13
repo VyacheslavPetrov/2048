@@ -1,4 +1,4 @@
-import React, {useEffect, memo} from "react"
+import React, {useEffect, memo, useState} from "react"
 import {TransitionGroup, CSSTransition} from 'react-transition-group'
 import { connect } from 'react-redux'
 import colorMap from '../../ui/cellColor'
@@ -18,6 +18,7 @@ import {
 } from "../../models/2048";
 import Button from "../../ui/Button"
 
+
 function Cell({cell}) {
   return <div className="cell" style={{backgroundColor: colorMap[cell]}}>{cell}</div>
 }
@@ -34,9 +35,30 @@ function Twenty48({gameArray, maxScore, currentScore, startGame, setNewNumber, g
       startGame()
     }
   },[setNewNumber, startGame])
-
+  const [touchStartPosition, setStartPosition] = useState(null)
+  const handleTouchEnd = (event) => {
+    const startX = touchStartPosition.screenX
+    const startY = touchStartPosition.screenY
+    const endX = event.changedTouches[0].screenX
+    const endY = event.changedTouches[0].screenY
+    if(Math.abs(startX - endX) > Math.abs(startY - endY)){
+      if (startX > endX){
+        getLeft()
+      } else {
+        getRight()
+      }
+    } else {
+      if (startY > endY) {
+        getUp()
+      } else {
+        getDown()
+      }
+    }
+  }
   return(
-    <div id="2048">
+    <div onTouchStart={(event)=>setStartPosition(event.changedTouches[0])}
+         id="2048"
+         onTouchEnd={(event)=>handleTouchEnd(event)}>
       <p>*2048*</p>
       <div>
         <button id="start2048" onClick={()=>startGame()}>Start Game</button>
@@ -54,7 +76,7 @@ function Twenty48({gameArray, maxScore, currentScore, startGame, setNewNumber, g
                  <TransitionGroup className="row game-array" key={rowKey}>
                   {row.map((cell, key)=>{
                     return(
-                      <CSSTransition classNames={cell === 0 ? "" : "item"} key={uuidv4()} timeout={100}>
+                      <CSSTransition classNames={cell === 0 ? "" : ""} key={uuidv4()} timeout={100}>
                         <Cell cell={cell}/>
                       </CSSTransition>
                     )
