@@ -76,7 +76,7 @@ function Twenty48({gameArray, maxScore, currentScore, startGame, setNewNumber, g
                  <TransitionGroup className="row game-array" key={rowKey}>
                   {row.map((cell, key)=>{
                     return(
-                      <CSSTransition classNames={cell === 0 ? "" : ""} key={uuidv4()} timeout={100}>
+                      <CSSTransition classNames={cell === 0 ? "" : "item"} key={uuidv4()} timeout={100}>
                         <Cell cell={cell}/>
                       </CSSTransition>
                     )
