@@ -154,26 +154,3 @@
 }
 
 
-/* Движение вправо */
-.item-enter {
-/*  opacity: 1;*/
-  transform: translateX(0px);
-  transition: 100ms ease-in;
-/*  position:absolute;*/
-}
-
-.item-enter-active {
-/*  opacity: 0;*/
-  transform: translateX(-10px);
-  transition: 500ms ease-in;
-}
-
-.item-exit {
-/*  opacity: 1;*/
-/*  position:absolute;*/
-}
-
-.item-exit-active {
-/*  opacity: 0;*/
-  transition: 100ms ease-in;
-}

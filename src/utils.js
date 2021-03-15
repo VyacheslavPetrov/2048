@@ -1,4 +1,6 @@
 import _ from 'lodash'
+const faker = require('faker')
+
 export const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
 }
@@ -34,22 +36,22 @@ export const getArrayCoordinates = (array) => {
   return arrayCoordinates
 }
 */
-function transpose(matrix) {
+export function transpose(matrix) {
   return matrix.reduce((prev, next) => next.map((item, i) =>
     (prev[i] || []).concat(next[i])
   ), []);
 }
 
-const matrixRotateRight = (arr, count) => {
-  if(count > 0){
-    console.log(arr)
-    const array = transpose(arr)
-    console.log(array)
-    return matrixRotateRight(array, --count)
-  } else {
-    return arr
-  }
-}
+// const matrixRotateRight = (arr, count) => {
+//   if(count > 0){
+//     console.log(arr)
+//     const array = transpose(arr)
+//     console.log(array)
+//     return matrixRotateRight(array, --count)
+//   } else {
+//     return arr
+//   }
+// }
 
 export const addStartNumber = () => {
   const possibleNumbers = [2,2,2,4]
@@ -82,7 +84,7 @@ export const putRandomNumber = (array) => {
   return arrayClone
 }
 
-const moveNulls = (array) => {
+export const moveNulls = (array) => {
   let newBoard = []
   for (let a = 0; a < array.length; a++) {
     let row = [];
@@ -95,7 +97,7 @@ const moveNulls = (array) => {
   return newBoard
 }
 
-const transformArray = (board) => {
+export const transformArray = (board) => {
   let newBoard = _.cloneDeep(board)
   for(let i = 0; i < newBoard.length; i++) {
     for (let j = newBoard.length - 1; j >= 0; j--) {
@@ -114,9 +116,7 @@ const transformArray = (board) => {
 
 export const moveLeft = (arr) => {
   const board = _.cloneDeep(arr)
-  console.log(arr)
   const array = board.map((item) => item.reverse())
-  console.log(array)
   const nullBoard = moveNulls(array)
 
   const transformBoard = transformArray(nullBoard)
@@ -153,7 +153,7 @@ export const isGameOver = (arr) => {
   const stringArr = JSON.stringify(arr)
   //console.log(stringArr === JSON.stringify(moveLeft(arr)), stringArr === JSON.stringify(moveDown(arr)), stringArr === JSON.stringify(moveNulls(arr)))
   if(stringArr === JSON.stringify(moveLeft(arr)) && stringArr === JSON.stringify(moveDown(arr)) && stringArr === JSON.stringify(moveNulls(arr))){
-    alert("GAME OVER!")
+    //alert("GAME OVER!")
     return true
   } else {
     return false
@@ -161,3 +161,23 @@ export const isGameOver = (arr) => {
 }
 
 
+export const generateRandomMatrix = () => {
+  const array = []
+  for(let i = 0; i < 4; i++){
+    for(let j = 0; j <4; j++){
+      array[i][j] = faker.random.arrayElement(arrayPowersOfTwo(15))
+    }
+  }
+  return array
+}
+
+export const arrayPowersOfTwo = (n) => {
+  const arr = []
+  for(let i = 0; i < n; i++){
+    arr[i] = Math.pow(2, n)
+  }
+  return arr
+}
+
+
+export const powerOfTwo = (n) => faker.random.arrayElement(arrayPowersOfTwo(n))
