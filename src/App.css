@@ -154,25 +154,3 @@
 }
 
 
-/* Движение вправо */
-.item-enter {
-  transform: scale(1);
-  /*transition: 50ms ease-in;*/
-/*  position:absolute;*/
-}
-
-.item-enter-active {
-  transform: scale(0.8);
-  /*transition: 50ms ease-in;
-  display:none;*/
-}
-
-.item-exit {
-/*  opacity: 0;
-  display:none;*/
-  transform: scale(0.8);
-}
-
-.item-exit-active {
-  transform: scale(1);
-}
