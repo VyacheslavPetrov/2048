@@ -1,4 +1,5 @@
 import _ from 'lodash'
+const faker = require('faker')
 
 export const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
@@ -160,3 +161,23 @@ export const isGameOver = (arr) => {
 }
 
 
+export const generateRandomMatrix = () => {
+  const array = []
+  for(let i = 0; i < 4; i++){
+    for(let j = 0; j <4; j++){
+      array[i][j] = faker.random.arrayElement(arrayPowersOfTwo(15))
+    }
+  }
+  return array
+}
+
+export const arrayPowersOfTwo = (n) => {
+  const arr = []
+  for(let i = 0; i < n; i++){
+    arr[i] = Math.pow(2, n)
+  }
+  return arr
+}
+
+
+export const powerOfTwo = (n) => faker.random.arrayElement(arrayPowersOfTwo(n))

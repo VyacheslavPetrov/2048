@@ -73,15 +73,13 @@ function Twenty48({gameArray, maxScore, currentScore, startGame, setNewNumber, g
       </div>
         {gameArray.map((row, rowKey)=>{
           return (
-                 <TransitionGroup className="row game-array" key={rowKey}>
-                  {row.map((cell, key)=>{
-                    return(
-                      <CSSTransition classNames={cell === 0 ? "" : ""} key={uuidv4()} timeout={100}>
-                        <Cell cell={cell}/>
-                      </CSSTransition>
-                    )
-                  })}
-                 </TransitionGroup>
+              <div className="row" key={rowKey}>
+                {row.map((cell, cellKey)=>{
+                  return(
+                      <div className="cell" key={cellKey} style={{backgroundColor: colorMap[cell]}}>{cell}</div>
+                  )
+                })}
+              </div>
           )
         })}
     </div>
@@ -107,3 +105,19 @@ export default connect(state => ({
 }), {
   startGame, setNewNumber, getRight, getLeft, getUp, getDown, winGame
 })(memo(Twenty48, areEqual))
+
+
+/*
+ return (
+                 <TransitionGroup className="row game-array" key={rowKey}>
+                  {row.map((cell, key)=>{
+                    return(
+                      <CSSTransition classNames={cell === 0 ? "" : "item"} key={uuidv4()} timeout={100}>
+                        <Cell cell={cell}/>
+                      </CSSTransition>
+                    )
+                  })}
+                 </TransitionGroup>
+          )
+        })}
+ */
