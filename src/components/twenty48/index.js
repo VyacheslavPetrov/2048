@@ -57,7 +57,7 @@ function Twenty48({gameArray, maxScore, currentScore, startGame, setNewNumber, g
   }
   return(
     <div onTouchStart={(event)=>setStartPosition(event.changedTouches[0])}
-         id="2048"
+         id="game_2048"
          onTouchEnd={(event)=>handleTouchEnd(event)}>
       <p>*2048*</p>
       <div>
